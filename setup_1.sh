@@ -14,7 +14,7 @@ rm -f install_* > /dev/null
 rm -f vars/* > /dev/null
 rm -rf roles/* > /dev/null
 
-echo "=== Seting up graylog-role ==="
+echo "=== Seting up webserver-role ==="
 ansible-galaxy install $role_name
 cp roles/$role_name/tests/vars/99_$role_name.yml vars/
 cp roles/$role_name/tests/$role_install_name ./install_1_appliance.yml
