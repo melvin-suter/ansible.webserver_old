@@ -5,7 +5,7 @@
 # Systemcheck
 systemcheck_physical_memory: 2048 # In MB
 systemcheck_swap_memory: 1024 # In MB
-systemcheck_disk: "{{ 20 * 1073741824‬ }}" # in bytes ; 20G
+systemcheck_disk: "{{ 20 * 1073741824 }}" # In bytes
 systemcheck_cpus: 2
 
 # Role
