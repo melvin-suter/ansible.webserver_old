@@ -3,7 +3,7 @@
 # Variables
 role_name=melvin_suter.webserver
 role_github_name=ansible.webserver
-role_displayname=Graylog Server
+role_displayname="LEMP Stack"
 
 # Check if installer has yet been run
 if [ -f "/etc/ansible/projects/uqcSetup/.INSTALLED" ]; then
