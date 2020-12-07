@@ -9,9 +9,9 @@
 
 # Include all roles like this:
 
-- name: uniqconsulting.os_basic
+- name: melvin_suter.os_basic
   include_role:
-    name: uniqconsulting.os_basic
+    name: melvin_suter.os_basic
   vars:
     setup_selinux: true
     selinux_policy: disabled
@@ -27,9 +27,9 @@
     name: uniqconsulting.open_vm_tools
   when: install_openvmtools
       
-- name: uniqconsulting.firewall
+- name: melvin_suter.firewall
   include_role:
-    name: uniqconsulting.firewall
+    name: melvin_suter.firewall
   vars:
     firewall_open_ports: "{{ role_ports + additional_open_ports }}"
 
