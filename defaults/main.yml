@@ -6,4 +6,7 @@ run_systemcheck: yes
 install_openvmtools: yes
 additional_open_ports: []
 
+webserver_sites: []
+
+
 ...

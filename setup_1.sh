@@ -1,8 +1,8 @@
 #!/bin/bash
 
 # Variables
-role_name=uniqconsulting.graylog
-role_install_name=install_X_graylog.yml
+role_name=melvin_suter.webserver
+role_install_name=install_X_webserver.yml
 
 # Setup Ansible
 echo "=== Setting up the ansible project ==="

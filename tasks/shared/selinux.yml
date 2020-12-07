@@ -1,0 +1,42 @@
+---
+
+- name: set fcontext for {{ nginx_default_document_root}}(/.*)/logs(/.*)?
+  sefcontext:
+    target: "{{ nginx_default_document_root}}(/.*)/logs(/.*)?"
+    setype: httpd_log_t
+    state: present
+
+- name: apply fcontext to {{ nginx_default_document_root}}(/.*)/logs(/.*)?
+  shell: restorecon -irv {{ nginx_default_document_root}}(/.*)/logs(/.*)?
+  register: restorecon_res
+  changed_when: restorecon_res.stdout != ""
+
+
+- name: set fcontext for {{ nginx_default_document_root}}(/.*)/www(/.*)?
+  sefcontext:
+    target: "{{ nginx_default_document_root}}(/.*)/www(/.*)?"
+    setype: httpd_sys_script_exec_t
+    state: present
+
+- name: apply fcontext to {{ nginx_default_document_root}}(/.*)/www(/.*)?
+  shell: restorecon -irv {{ nginx_default_document_root}}(/.*)/www(/.*)?
+  register: restorecon_res
+  changed_when: restorecon_res.stdout != ""
+
+
+- name: set fcontext for {{ nginx_default_document_root}}(/.*)/conf(/.*)?
+  sefcontext:
+    target: "{{ nginx_default_document_root}}(/.*)/conf(/.*)?"
+    setype: httpd_config_t
+    state: present
+
+- name: apply fcontext to {{ nginx_default_document_root}}(/.*)/conf(/.*)?
+  shell: restorecon -irv {{ nginx_default_document_root}}(/.*)/conf(/.*)?
+  register: restorecon_res
+  changed_when: restorecon_res.stdout != ""
+
+
+
+
+
+...

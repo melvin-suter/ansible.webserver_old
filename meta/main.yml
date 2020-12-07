@@ -1,16 +1,15 @@
 ---
 # Change as needed
 galaxy_info:
-  author: uniQconsulting ag
-  company: uniqconsulting
-  role_name: <ROLENAME>
-  description: <DESCRIPTION>
+  author: Melvin Suter
+  company: melvin_suter
+  role_name: webserver
+  description: Set's up a webserver & sites
   min_ansible_version: 2.4
   license: GPLv3
   platforms:
   - name: EL
     versions:
-    - 7
     - 8
   galaxy_tags: []
 

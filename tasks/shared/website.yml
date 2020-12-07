@@ -1,0 +1,85 @@
+---
+
+- name: calculate configs
+  set_fact:
+    vhost: "{{ webserver_site_default | combine(website) }}"
+    tmp_vhost:
+      database_name: "{{ vhost.database_name | (default(vhost.name) | replace('\\e[0m', '')| replace('\\t', ''))[:15] }}"
+      database_password: "{{ vhost.database_password | default( lookup('password', '/dev/null length=15 chars=scii_uppercase,digits') ) }}"
+
+- name: set vhost
+  set_fact:
+    vhost: "{{ tmp_vhost | combine(vhost) }}"
+    
+- name: create vhost dir
+  file:
+    state: directory
+    owner: nginx
+    group: nginx
+    path: "{{ nginx_default_document_root}}/{{ vhost.name }}/{{ item[1] }}"
+  loop:
+  - www
+  - www/public
+  - log
+  - conf
+
+- name: generate database
+  include_role:
+    name: melvin_suter.mariadb
+  vars: 
+    mariadb_update_only: yes
+    mariadb_databases:
+    - name: "{{ vhost.database_name }}"
+    mariadb_users_create:
+    - name: "{{ vhost.database_name }}"
+      password: "{{ vhost.database_password }}"
+      append_privs: no
+
+- name: generate nginx conf
+  include_role:
+    name: melvin_suter.nginx
+  vars: 
+    nginx_update_only: yes
+    nginx_vhosts:
+    - type: web
+      server_name: "{{ vhost.name + vhost.alias }}"
+      ssl_certificate: "{{ vhost.ssl_cert }}"
+      ssl_certificate_key: "{{ vhost.ssl_key }}"
+      default: "{{ vhost.default }}"
+      locations: "{{ vhost.locations }}"
+      document_root: "{{ nginx_default_document_root}}/{{ vhost.name }}/www/public"
+      php_version: "{{ vhost.php_version }}"
+    nginx_default_document_root: "{{ webserver_document_root }}"
+
+- name: symlink ssl cert
+  file:
+    state: link
+    src: "{{ vhost.ssl_cert }}"
+    dest: "{{ nginx_default_document_root}}/{{ vhost.name }}/conf/cert.pem"
+
+- name: symlink ssl key
+  file:
+    state: link
+    src: "{{ vhost.ssl_key }}"
+    dest: "{{ nginx_default_document_root}}/{{ vhost.name }}/conf/key.pem"
+
+- name: symlink nginx conf
+  file:
+    state: link
+    src: /etc/nginx/conf.d/{{ vhost.name }}.conf
+    dest: "{{ nginx_default_document_root}}/{{ vhost.name }}/conf/nginx.conf"
+
+- name: symlink log
+  file:
+    state: link
+    src: /var/log/nginx/{{ vhost.name }}_{{ item }}
+    dest: "{{ nginx_default_document_root}}/{{ vhost.name }}/log/{{ item }}"
+  loop:
+  - access.log
+  - error.log
+
+- name: dump config
+  copy:
+    content: "{{ vhost }}"
+    dest: "{{ nginx_default_document_root}}/{{ vhost.name }}/conf/ansible.conf"
+...

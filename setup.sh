@@ -1,8 +1,8 @@
 #!/bin/bash
 
 # Variables
-role_name=uniqconsulting.graylog
-role_github_name=ansible.graylog
+role_name=melvin_suter.webserver
+role_github_name=ansible.webserver
 role_displayname=Graylog Server
 
 # Check if installer has yet been run
@@ -18,7 +18,7 @@ fi
 yum install -y -q dialog > /dev/null
 
 # Base Setup
-curl -s https://raw.githubusercontent.com/uniQconsulting-ag/$role_github_name/master/setup_1.sh > /tmp/setup_1.sh
+curl -s https://raw.githubusercontent.com/melvin-suter/$role_github_name/master/setup_1.sh > /tmp/setup_1.sh
 chmod +x /tmp/setup_1.sh
 /tmp/setup_1.sh  2>&1  | dialog --title "Setup - Ansible Project" --progressbox $(expr $(tput lines) - 5) $(expr $(tput cols) - 5)
 clear

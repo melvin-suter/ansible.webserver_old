@@ -1,0 +1,103 @@
+---
+#################
+#   ROLE-NAME
+#################
+
+#ROLESPECIFIC VARIABLES
+webserver_sites:
+# Minimal:
+- name: www.example.org
+# Full:
+- name: example.org
+  alias:
+  - www.*
+  - www.example.org
+  database_name: example      # default generated from name
+  database_password: crypton  # default generated
+  php_version: 80
+  default: no
+  ssl_cert: /etc/nginx/ssl/cert.pem
+  ssl_key: /etc/nginx/ssl/key.pem
+  locations:
+  - path: "~ ^(.*)$"
+    custom_options:
+    - "try_files $uri $uri/ /index.php?p=$uri&$args"
+
+
+#################
+#   OS Basic
+#################
+
+setup_mail: false
+sysadmin_email: 'support@example.org'
+mail_relay_host: 'smtp.example.org'
+mail_local_sender_domain: 'example.org'
+
+setup_syslog_forwarding: false
+syslog_remote_host: '@graylog.example.org:514'
+
+setup_snmpd: false
+monitoring_host_ip: '192.168.1.10'
+snmp_community_name: 'MyCommunity'
+
+install_openvmtools: yes
+
+
+#################
+#    Firewall
+#################
+
+additional_open_ports:
+- port: 10050
+  protocol: tcp
+
+
+#################
+#     PHP
+#################
+
+# Change PHP Settings
+# php_max_execution_time: 3600
+# php_memory_limit: 512M
+# php_display_errors: no
+# php_upload_max_filesize: 4G
+# php_post_max_size: "{{ php_upload_max_filesize }}"
+# php_max_file_uploads: 20
+# php_default_socket_timeout: 60
+
+# Change Performance settings
+# php_pm_type: static
+# php_pm_max_children: 50
+# php_pm_start_servers: 5
+# php_pm_min_spare_servers: 5
+# php_pm_max_spare_servers: 35
+
+
+#################
+#    mariadb
+#################
+
+### Custom Configs (use with caution) ##
+# db_mysqld_config:
+#   - default-storage-engine=InnoDB
+#   - max_allowed_packet=64M
+#   - query_cache_size=32M
+#   - datadir=/var/lib/mysql
+#   - socket=/var/lib/mysql/mysql.sock
+#   - symbolic-links=0
+
+### Tuning (use with caution!!) ###
+# these are some basic settings for a small deployment (using about 1.5G)
+# mariadb_tuning_innodb_buffer: 1G
+# mariadb_tuning_sort_buffer: 1M
+# mariadb_tuning_join_buffer: 1M
+# mariadb_tuning_query_cache: 128M
+# mariadb_tuning_query_cache_limit: 128K
+# mariadb_tuning_query_cache_min: 1K
+# mariadb_tuning_tmp_table: 64M
+# mariadb_tuning_heap_table: 64M
+# mariadb_tuning_table_open: 4000
+# mariadb_tuning_innodb_log: 128M
+
+...
+

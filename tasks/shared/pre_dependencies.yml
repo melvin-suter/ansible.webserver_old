@@ -5,7 +5,7 @@
 
 # Change needed roles here
 - name: download dependencies from galaxy
-  shell: ansible-galaxy install uniqconsulting.os_basic uniqconsulting.open_vm_tools uniqconsulting.firewall uniqconsulting.nginx uniqconsulting.mariadb
+  shell: ansible-galaxy install melvin_suter.os_basic uniqconsulting.open_vm_tools melvin_suter.firewall melvin_suter.nginx melvin_suter.php melvin_suter.mariadb
 
 # Include all roles like this:
 
@@ -33,4 +33,26 @@
   vars:
     firewall_open_ports: "{{ role_ports + additional_open_ports }}"
 
+- name: melvin_suter.mariadb
+  include_role:
+    name: melvin_suter.mariadb
+
+- name: create nginx user (needed for php)
+  user:
+    name: nginx
+    system: yes
+    shell: /usr/sbin/nologin
+    create_home: no
+  
+- name: melvin_suter.php
+  include_role:
+    name: melvin_suter.php
+  
+- name: melvin_suter.nginx
+  include_role:
+    name: melvin_suter.nginx
+  vars: 
+    nginx_vhosts: []
+    nginx_default_document_root: "{{ webserver_document_root }}"
+      
 ...
