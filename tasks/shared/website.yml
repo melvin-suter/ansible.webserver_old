@@ -49,7 +49,7 @@
     nginx_update_only: yes
     nginx_vhosts:
     - type: web
-      server_name: "{{ vhost.name + vhost.alias }}"
+      server_name: "{{ [vhost.name] + vhost.alias }}"
       ssl_certificate: "{{ vhost.ssl_cert }}"
       ssl_certificate_key: "{{ vhost.ssl_key }}"
       default: "{{ vhost.default }}"
