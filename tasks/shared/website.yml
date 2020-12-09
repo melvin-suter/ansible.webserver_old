@@ -38,8 +38,8 @@
     mariadb_users_create:
     - name: "{{ vhost.database_name }}"
       password: "{{ vhost.database_password }}"
-      hosts:
-      - localhost
+      privs:
+      - "{{ vhost.database_name }}.*:ALL"
       append_privs: no
 
 - name: generate nginx conf
