@@ -1,7 +1,7 @@
 ---
 
 - name: include website-generator
-  include_tasks: "website.yml.yml"
+  include_tasks: "website.yml"
   loop_control:
     loop_var: website 
   loop: "{{ webserver_sites }}"

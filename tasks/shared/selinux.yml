@@ -6,23 +6,11 @@
     setype: httpd_log_t
     state: present
 
-- name: apply fcontext to {{ webserver_document_root}}(/.*)/logs(/.*)?
-  shell: restorecon -irv {{ webserver_document_root}}(/.*)/logs(/.*)?
-  register: restorecon_res
-  changed_when: restorecon_res.stdout != ""
-
-
 - name: set fcontext for {{ webserver_document_root}}(/.*)/www(/.*)?
   sefcontext:
     target: "{{ webserver_document_root}}(/.*)/www(/.*)?"
     setype: httpd_sys_script_exec_t
     state: present
-
-- name: apply fcontext to {{ webserver_document_root}}(/.*)/www(/.*)?
-  shell: restorecon -irv {{ webserver_document_root}}(/.*)/www(/.*)?
-  register: restorecon_res
-  changed_when: restorecon_res.stdout != ""
-
 
 - name: set fcontext for {{ webserver_document_root}}(/.*)/conf(/.*)?
   sefcontext:
@@ -30,8 +18,8 @@
     setype: httpd_config_t
     state: present
 
-- name: apply fcontext to {{ webserver_document_root}}(/.*)/conf(/.*)?
-  shell: restorecon -irv {{ webserver_document_root}}(/.*)/conf(/.*)?
+- name: apply fcontext to {{ webserver_document_root}}?
+  shell: restorecon -irv {{ webserver_document_root}}?
   register: restorecon_res
   changed_when: restorecon_res.stdout != ""
 
