@@ -81,6 +81,7 @@
     state: link
     src: /var/log/nginx/{{ vhost.name }}_{{ item }}
     dest: "{{ webserver_document_root}}/{{ vhost.name }}/log/{{ item }}"
+    force: yes
   loop:
   - access.log
   - error.log
