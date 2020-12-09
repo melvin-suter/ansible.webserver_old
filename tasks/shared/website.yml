@@ -56,7 +56,7 @@
       locations: "{{ vhost.locations }}"
       document_root: "{{ webserver_document_root}}/{{ vhost.name }}/www/public"
       php_version: "{{ vhost.php_version }}"
-    webserver_document_root: "{{ webserver_document_root }}"
+    nginx_default_document_root: "{{ webserver_document_root }}"
 
 - name: symlink ssl cert
   file:
