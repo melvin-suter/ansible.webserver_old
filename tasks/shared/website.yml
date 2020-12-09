@@ -4,7 +4,7 @@
   set_fact:
     vhost: "{{ webserver_site_default | combine(website) }}"
     tmp_vhost:
-      database_name: "{{ ((website.database_name | default(website.name)) | regex_replace('.', '') | regex_replace('-', '')  )[:15] }}"
+      database_name: "{{ ((website.database_name | default(website.name)) | replace('.', '') | replace('-', '')  )[:15] }}"
       database_password: "{{ website.database_password | default( lookup('password', '/dev/null length=15 chars=scii_uppercase,digits') ) }}"
 
 - name: set vhost
@@ -25,7 +25,7 @@
 
 - name: dump config
   copy:
-    content: "{{ vhost }}"
+    content: "{{ vhost | to_nice_yaml }}"
     dest: "{{ webserver_document_root}}/{{ vhost.name }}/conf/ansible.conf"
 
 - name: generate database
